@@ -18,25 +18,29 @@ class SkillShopController extends Controller
         $sysid  = request('sysid');
         $apikey = request('apikey'). ':lsvt';
 
-        $response = Http::withHeaders([
-            "content-type" => "application/json",
-            "authorization" => "Basic " . base64_encode($apikey),
+        return view('skillshop.index');
+        // $response = Http::withHeaders([
+        //     "content-type"  => "application/json",
+        //     "authorization" => "Basic " . base64_encode($apikey),
 
-        ])->get('https://webservices.lightspeedvt.net/REST/V1/courses',[
-            "page" => "1",
-            "itemsPerPage" => "100",
-            "systemId" => $sysid
-        ]);
-        if( $response->failed())
-        {
-            $res = $response->body();
-            return view('welcome', compact('res'));
-        }
+        // ])->get('https://webservices.lightspeedvt.net/REST/V1/courses',[
+        //     "page"          => "1",
+        //     "itemsPerPage"  => "100",
+        //     "systemId"      => $sysid
+        // ]);
+
+
+        // if($response->failed())
+        // {
+        //     $res = $response->body();
+        //     $res = json_decode($res, true);
+        //     return view('welcome', compact('res'));
+        // }
        
-        $courses = json_decode($response, true);
-        return view('skillshop.index', compact('courses'));
+        // $courses = json_decode($response, true);
+        // return view('skillshop.index', compact('courses', 'sysid'));
 
-        // echo base64_encode('6C5B35FD:lsvt');
+    
 
     }
 }

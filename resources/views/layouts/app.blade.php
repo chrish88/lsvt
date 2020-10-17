@@ -25,7 +25,7 @@
     </head>
     <body class="antialiased">
 
-        @yield('content');
+        @yield('content')
 
     </body>
 </html>
