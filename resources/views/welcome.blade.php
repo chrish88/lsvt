@@ -34,11 +34,11 @@
             Continue
           </button>
         </div>
-        @if( $res )
+        @if( $res ?? '' )
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4" role="alert">
-            <strong class="font-bold">Error: {{$res['code']}}</strong>
+            <strong class="font-bold">Error: {{$res['code'] ?? ''}}</strong>
             <br>
-            <span class="block sm:inline">{{$res['message']}}</span>
+            <span class="block sm:inline">{{$res['message'] ?? ''}}</span>
           </div>
         @endif
       </form>
