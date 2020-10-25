@@ -8,10 +8,6 @@
 <div class="container lg mx-auto flex flex-col justify-center items-center skillshop-container">
 
     <div class="container lg mx-auto flex flex-col justify-center items-center skillshop-form-container">
-        
-        {{-- @foreach($courses as $course => $val)
-            {{$val['courseId']}} : {{$val['courseName']}}<br>
-        @endforeach --}}
 
         <form class="w-full max-w-2xl">
             <h2 class="my-8">
@@ -29,8 +25,18 @@
                 <textarea id="overview" cols="30" rows="10" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Overview" aria-label="Overview"></textarea>
             </div>
 
+            <div class="container courses-container flex flex-col my-10">
+              courses
 
-            courses
+              @foreach($courses as $course => $val)
+              <div id="course-{{ $val['courseId'] }}" class="course my-2">
+                <input type="checkbox" value="{{ $val['courseId'] }}" class="mr-2">
+                <label for="">{{$val['courseId']}} : {{$val['courseName']}}</label>
+              </div>
+
+              @endforeach
+
+            </div>
             
 
             <div class="spacer m-24"></div>
