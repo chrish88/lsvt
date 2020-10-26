@@ -18,11 +18,7 @@ class SkillShopController extends Controller
         $sysid  = request('sysid');
         $apikey = request('apikey'). ':lsvt';
 
-<<<<<<< HEAD
-        //return view('skillshop.index');
-=======
         // return view('skillshop.index');
->>>>>>> 79190683d056a0cfc68979998af2cb86f4110025
         $response = Http::withHeaders([
             "content-type"  => "application/json",
             "authorization" => "Basic " . base64_encode($apikey),

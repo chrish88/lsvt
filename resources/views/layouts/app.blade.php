@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="{{ asset('/css/app.css')}}" rel="stylesheet">
         <link href="{{ asset('/css/main.css')}}" rel="stylesheet">
-
+        
         <style>
             body {
                 font-family: 'Nunito';
@@ -18,12 +18,14 @@
         </style>
     </head>
     <body class="antialiased">
+        <div id="app">
+            @yield('header')
 
-        @yield('header')
+            @yield('content')
 
-        @yield('content')
-
-        @yield('footer')
+            @yield('footer')
+        </div>
+        <script defer src="{{ mix('/js/app.js') }}"></script>
     </body>
 </html>
     
