@@ -2,49 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SkillshopMailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Inertia\Inertia;
 
-class SkillShopController extends Controller
+class SkillshopController extends Controller
 {
-    function index(){
-
-        return view('welcome');
-
+    function index()
+    {
+        return Inertia::render('Skillshop/index');
     }
 
-    function show(){
-
-        $sysid  = request('sysid');
-        $apikey = request('apikey'). ':lsvt';
-
-<<<<<<< HEAD
-        //return view('skillshop.index');
-=======
-        // return view('skillshop.index');
->>>>>>> 79190683d056a0cfc68979998af2cb86f4110025
-        $response = Http::withHeaders([
-            "content-type"  => "application/json",
-            "authorization" => "Basic " . base64_encode($apikey),
-
-        ])->get('https://webservices.lightspeedvt.net/REST/V1/courses',[
-            "page"          => "1",
-            "itemsPerPage"  => "100",
-            "systemId"      => $sysid
+    function show(Request $request)
+    {
+        $request->validate([
+            'sysid'     =>  'required',
+            'apikey'    =>  'required'  
         ]);
 
+        $sysid  = request('sysid');
+        $apikey = request('apikey');
 
-        if($response->failed())
-        {
-            $res = $response->body();
-            $res = json_decode($res, true);
-            return view('welcome', compact('res'));
-        }
+        // //return view('skillshop.index');
+        // $response = Http::withHeaders([
+        //     "content-type"  => "application/json",
+        //     "authorization" => "Basic " . base64_encode($apikey),
+
+        // ])->get('https://webservices.lightspeedvt.net/REST/V1/courses',[
+        //     "page"          => "1",
+        //     "itemsPerPage"  => "100",
+        //     "systemId"      => $sysid
+        // ]);
+
+
+        // if($response->failed())
+        // {
+        //     $res = $response->body();
+        //     $res = json_decode($res, true);
+        //     return Inertia::render('Skillshop/index', compact('res'));
+        // }
        
-        $courses = json_decode($response, true);
-        return view('skillshop.index', compact('courses', 'sysid'));
+        //$courses = json_decode($response, true);
+        return Inertia::render('Skillshop/form', compact('sysid', 'apikey'));
 
     
 
     }
+
+    function submit(Request $request){
+    
+       Mail::to('chrishcodes@gmail.com')->send(new SkillshopMailer($request));
+
+       
+    }
+       
+    
 }
