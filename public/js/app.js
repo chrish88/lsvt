@@ -3234,6 +3234,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     //get courses count
@@ -3242,6 +3254,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getCourses(this.pageNum);
   },
   props: {
+    errors: {},
     sysid: null,
     apikey: null
   },
@@ -3254,23 +3267,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       itemsPerPage: 30,
       pageNum: 1,
       priceIndex: 1,
-      terms: ['select', 'monthly', 'quarterly', 'yearly', 'one time'],
-      pricingModels: ['select', 'b2c', 'b2b'],
+      terms: ['', 'monthly', 'quarterly', 'yearly', 'one time'],
+      pricingModels: ['', 'b2c', 'b2b'],
       form: {
         sysid: this.sysid,
-        productName: null,
-        overview: null,
+        productName: '',
+        overview: '',
         selectedCourses: [],
-        pricePoints: {
-          pricePoint1: {
-            price: null,
-            term: null,
-            priceModel: null
-          }
-        },
-        sme: null,
-        bio: null,
-        imgLink: null
+        pricePoints: {},
+        sme: '',
+        bio: '',
+        imgLink: ''
       }
     };
   },
@@ -3346,46 +3353,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.checkBtnState();
       }
     },
-    checkBtnState: function () {
-      var _checkBtnState = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _this3 = this;
+    checkBtnState: function checkBtnState() {
+      var _this3 = this;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (this.$refs.addBtn) {
-                  this.$refs.addBtn.forEach(function (btn) {
-                    if (_this3.form.selectedCourses.includes(btn.id)) {
-                      btn.textContent = "Remove";
-                      btn.classList.remove('bg-blue-500');
-                      btn.classList.add('bg-red-500');
-                      return;
-                    }
-
-                    if (!_this3.form.selectedCourses.includes(btn.id)) {
-                      btn.textContent = "Add";
-                      btn.classList.remove('bg-red-500');
-                      btn.classList.add('bg-blue-500');
-                      return;
-                    }
-                  });
-                }
-
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
+      if (this.$refs.addBtn) {
+        this.$refs.addBtn.forEach(function (btn) {
+          if (_this3.form.selectedCourses.includes(btn.id)) {
+            btn.textContent = "Remove";
+            btn.classList.remove('bg-blue-500');
+            btn.classList.add('bg-red-500');
+            return;
           }
-        }, _callee2, this);
-      }));
 
-      function checkBtnState() {
-        return _checkBtnState.apply(this, arguments);
+          if (!_this3.form.selectedCourses.includes(btn.id)) {
+            btn.textContent = "Add";
+            btn.classList.remove('bg-red-500');
+            btn.classList.add('bg-blue-500');
+            return;
+          }
+        });
       }
-
-      return checkBtnState;
-    }(),
+    },
     removeSelectedCourse: function removeSelectedCourse(event, course, index) {
       this.form.selectedCourses.splice(index, 1); //changes button text and background color
 
@@ -3415,11 +3403,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       var pricePointContainer = document.querySelector('#price-point-container');
-      var pricePointCount = document.querySelectorAll('.price-container').length + 1; //new price point wrapper
+      var pricePointCount = document.querySelectorAll('.price-wrap').length + 1; //new price point wrapper
 
       var newPricePointWrapper = document.createElement('div');
       newPricePointWrapper.setAttribute('id', 'price-point-wrapper' + pricePointCount);
-      newPricePointWrapper.classList.add('container', 'price-container', 'flex', 'items-center', 'my-10'); //new price point
+      newPricePointWrapper.classList.add('container', 'price-wrap', 'flex', 'items-center', 'my-10'); //new price point
 
       var newPricePoint = document.createElement('div');
       newPricePoint.classList.add('w-1/4', 'md:w-1/2', 'mb-6', 'md:mb-0');
@@ -3468,7 +3456,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var pmTermLabel = document.createElement('label');
       pmTermLabel.classList.add('block', 'mb-2');
       pmTermLabel.setAttribute('for', 'pricing-model' + pricePointCount);
-      pmTermLabel.textContent = "pricing-model"; //select
+      pmTermLabel.textContent = "Pricing Model"; //select
 
       var pmSelect = document.createElement('Select');
       pmSelect.id = "priceModel" + pricePointCount;
@@ -3486,17 +3474,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       newPricePointWrapper.appendChild(pmDiv);
       pricePointContainer.appendChild(newPricePointWrapper); //adds new object to form.pricePoint
 
-      var addedPrices = document.querySelectorAll('.price-container');
+      var addedPrices = document.querySelectorAll('.price-wrap');
       addedPrices.forEach(function (pricePoint) {
         _this4.form.pricePoints["pricePoint".concat(addedPrices.length)] = {
-          price: null,
-          term: null,
-          pricingModel: null
+          price: '',
+          term: '',
+          pricingModel: ''
         };
       });
     },
     submit: function submit() {
       var _this5 = this;
+
+      //if first price point has values, add those values to pricePoints object
+      if (document.querySelector("#price1").value != '' && document.querySelector("#term1").value != '' && document.querySelector("#priceModel1").value != '') {
+        var newObj = {
+          price: document.querySelector("#price".concat(this.priceIndex)).value,
+          term: document.querySelector("#term".concat(this.priceIndex)).value,
+          priceModel: document.querySelector("#priceModel".concat(this.priceIndex)).value
+        };
+        this.form.pricePoints["pricePoint".concat(this.priceIndex)] = newObj;
+      }
 
       Object.entries(this.form.pricePoints).forEach(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
@@ -3505,9 +3503,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         //loop through form.pricePoints and assign values dynamically
         var newObj = {
-          price: value.price ? value.price : document.querySelector("#price".concat(_this5.priceIndex)).value,
-          term: value.term ? value.term : document.querySelector("#term".concat(_this5.priceIndex)).value,
-          priceModel: value.priceModel ? value.priceModel : document.querySelector("#priceModel".concat(_this5.priceIndex)).value
+          price: value.price ? document.querySelector("#price".concat(_this5.priceIndex)).value : '',
+          term: value.term ? document.querySelector("#term".concat(_this5.priceIndex)).value : '',
+          priceModel: value.priceModel ? document.querySelector("#priceModel".concat(_this5.priceIndex)).value : ''
         };
         _this5.form.pricePoints["".concat(key)] = newObj; //console.log(this.form.pricePoints[`${key}`])
         //console.log(`${this.priceIndex}, ${key}: ${value.price}`);
@@ -3520,6 +3518,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   updated: function updated() {
     this.checkBtnState();
+
+    if (this.errors.productName) {
+      console.log(this.errors);
+    }
   }
 });
 
@@ -3601,7 +3603,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit(event) {
-      this.$inertia.post('/skillshop/form', this.form);
+      this.$inertia.get('/skillshop/form', this.form);
     }
   }
 });
@@ -39957,7 +39959,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container flex justify-center" }, [
+  return _c("div", { staticClass: "flex justify-center" }, [
     _c(
       "form",
       {
@@ -39993,8 +39995,7 @@ var render = function() {
                 id: "sysid",
                 type: "text",
                 placeholder: "System Id",
-                "aria-label": "System Id",
-                value: ""
+                "aria-label": "System Id"
               },
               domProps: { value: _vm.sysid },
               on: {
@@ -40008,6 +40009,12 @@ var render = function() {
             })
           ]
         ),
+        _vm._v(" "),
+        _vm.errors.sysid
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.sysid[0]))
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "div",
@@ -40044,6 +40051,12 @@ var render = function() {
             })
           ]
         ),
+        _vm._v(" "),
+        _vm.errors.productName
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.productName[0]))
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "div",
@@ -40082,6 +40095,12 @@ var render = function() {
             })
           ]
         ),
+        _vm._v(" "),
+        _vm.errors.overview
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.overview[0]))
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
@@ -40181,7 +40200,13 @@ var render = function() {
                 }),
                 0
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.errors.selectedCourses
+              ? _c("div", { staticClass: "text-red-400 p-2" }, [
+                  _vm._v(_vm._s(_vm.errors.selectedCourses[0]))
+                ])
+              : _vm._e()
           ]
         ),
         _vm._v(" "),
@@ -40302,48 +40327,11 @@ var render = function() {
             _c(
               "div",
               {
-                staticClass:
-                  "container price-container flex items-center my-10",
+                staticClass: "container price-wrap flex items-center my-10",
                 attrs: { id: "price-point-wrapper1" }
               },
               [
-                _c("div", { staticClass: "w-1/4 md:w-1/2 mb-6 md:mb-0" }, [
-                  _c("label", { staticClass: "price-label block mb-2" }, [
-                    _vm._v("Price Point 1")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.pricePoints.pricePoint1.price,
-                        expression: "form.pricePoints.pricePoint1.price"
-                      }
-                    ],
-                    staticClass:
-                      "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white",
-                    attrs: {
-                      id: "price1",
-                      type: "number",
-                      placeholder: "$ Price",
-                      "aria-label": "Price"
-                    },
-                    domProps: { value: _vm.form.pricePoints.pricePoint1.price },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.form.pricePoints.pricePoint1,
-                          "price",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -40366,36 +40354,9 @@ var render = function() {
                       _c(
                         "select",
                         {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.pricePoints.pricePoint1.term,
-                              expression: "form.pricePoints.pricePoint1.term"
-                            }
-                          ],
                           staticClass:
                             "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
-                          attrs: { id: "term1" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.form.pricePoints.pricePoint1,
-                                "term",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
+                          attrs: { id: "term1" }
                         },
                         _vm._l(_vm.terms, function(term) {
                           return _c(
@@ -40446,7 +40407,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "block mb-2",
-                        attrs: { for: "pricing-modle" }
+                        attrs: { for: "pricing-model" }
                       },
                       [
                         _vm._v(
@@ -40459,38 +40420,9 @@ var render = function() {
                       _c(
                         "select",
                         {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value:
-                                _vm.form.pricePoints.pricePoint1.priceModel,
-                              expression:
-                                "form.pricePoints.pricePoint1.priceModel"
-                            }
-                          ],
                           staticClass:
                             "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
-                          attrs: { id: "priceModel1" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.form.pricePoints.pricePoint1,
-                                "priceModel",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
+                          attrs: { id: "priceModel1" }
                         },
                         _vm._l(_vm.pricingModels, function(pricingModel) {
                           return _c("option", { key: pricingModel.id }, [
@@ -40556,6 +40488,12 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
+        _vm.errors.pricePoints
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.pricePoints[0]))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c("div", { staticClass: "spacer m-24" }),
         _vm._v(" "),
         _c(
@@ -40593,6 +40531,12 @@ var render = function() {
             })
           ]
         ),
+        _vm._v(" "),
+        _vm.errors.sme
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.sme[0]))
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "div",
@@ -40632,6 +40576,12 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
+        _vm.errors.bio
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.bio[0]))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "div",
           {
@@ -40668,13 +40618,19 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
+        _vm.errors.imgLink
+          ? _c("div", { staticClass: "text-red-400 p-2" }, [
+              _vm._v(_vm._s(_vm.errors.imgLink[0]))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c("div", { staticClass: "sub-btn-container my-10" }, [
           _c(
             "a",
             {
               staticClass:
                 "submit bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow",
-              attrs: { id: "sub-btn" },
+              attrs: { id: "sub-btn", type: "submit" },
               on: {
                 click: function($event) {
                   return _vm.submit()
@@ -40716,6 +40672,27 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("tr", [_c("th"), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/4 md:w-1/2 mb-6 md:mb-0" }, [
+      _c("label", { staticClass: "price-label block mb-2" }, [
+        _vm._v("Price Point 1")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white",
+        attrs: {
+          id: "price1",
+          type: "number",
+          placeholder: "$ Price",
+          "aria-label": "Price"
+        }
+      })
     ])
   }
 ]

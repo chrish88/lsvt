@@ -32,8 +32,21 @@ class SkillshopController extends Controller
     }
 
     function submit(Request $request){
+
+        $params = $request->json();
+        dd($params);
+        $request->validate([
+            'sysid'             => 'required',
+            'productName'       => 'required',
+            'overview'          => 'required',
+            'selectedCourses'   => 'required',
+            'pricePoints'       => 'required',
+            'sme'               => 'required',
+            'bio'               => 'required',
+            'imgLink'           => 'required'
+        ]);
     
-       Mail::to('chrishcodes@gmail.com')->send(new SkillshopMailer($request));
+       //Mail::to('chrishcodes@gmail.com')->send(new SkillshopMailer($request));
 
        
     }

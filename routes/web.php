@@ -16,13 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [SkillshopController::class, 'index']
+
+//[HomeController::class, 'index']
+);
 
 Route::get('/skillshop', [SkillshopController::class, 'index']);
 
-Route::post('/skillshop/form', [SkillshopController::class, 'show']);
+Route::get('/skillshop/form', [SkillshopController::class, 'show']);
 
 Route::post('/skillshop/form/submit', [SkillshopController::class, 'submit']);
-Route::get('/skillshop/email', function(){
-    return new SkillshopMailer;
-});
+// Route::get('/skillshop/email', function(){
+//     return new SkillshopMailer;
+// });

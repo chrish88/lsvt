@@ -1,5 +1,5 @@
 <template>
-<div class="container flex justify-center">
+<div class="flex justify-center">
     <form id="form-component" @submit.prevent="" class="w-full max-w-2xl">
     <h2 class="my-8">
     Please fill out the Skill Shop application for system:<span></span>
@@ -11,9 +11,9 @@
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" 
         placeholder="System Id" 
         aria-label="System Id" 
-        value="">
+        >
     </div>
-
+    <div v-if="errors.sysid" class="text-red-400 p-2">{{ errors.sysid[0] }}</div>
     <div class="flex items-center border-b border-blue-600 py-2 my-6">
         <input 
         v-model="form.productName" 
@@ -21,9 +21,10 @@
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" 
         type="text" 
         placeholder="Product Name" 
-        aria-label="Product Name">
+        aria-label="Product Name"
+        >
     </div>
-
+    <div v-if="errors.productName" class="text-red-400 p-2">{{ errors.productName[0] }}</div>
     <div class="flex items-center border-b border-blue-600 py-2 my-6">
         <textarea 
         v-model="form.overview"
@@ -33,9 +34,11 @@
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" 
         type="text" 
         placeholder="Overview" 
-        aria-label="Overview">
+        aria-label="Overview"
+        >
         </textarea>
     </div>
+    <div v-if="errors.overview" class="text-red-400 p-2">{{ errors.overview[0] }}</div>
     <br>
     <!-- selected courses -->
 
@@ -103,8 +106,9 @@
             </tr>
             </tbody>
         </table>
-
+    <div v-if="errors.selectedCourses" class="text-red-400 p-2">{{ errors.selectedCourses[0] }}</div>
     </div>
+
 
     <!-- pagination -->
     <div v-if="pagesCount > 0" id="pagination" class="container flex">
@@ -141,16 +145,17 @@
     <div class="spacer m-24"></div>
 
     <div id="price-point-container" class="priceContainer flex flex-col">
-        <div id="price-point-wrapper1" class="container price-container flex items-center my-10">
+        <div id="price-point-wrapper1" class="container price-wrap flex items-center my-10">
             <div class="w-1/4 md:w-1/2 mb-6 md:mb-0">
                 <label class="price-label block mb-2">Price Point 1</label>
                 <input 
-                v-model="form.pricePoints.pricePoint1.price"
+                
                 id="price1" 
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" 
                 type="number" 
                 placeholder="$ Price" 
-                aria-label="Price">
+                aria-label="Price"
+                >
             </div>
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                 <label class="block mb-2" for="pricing-term">
@@ -158,10 +163,10 @@
                 </label>
                 <div class="relative">
                     <select 
-                    v-model="form.pricePoints.pricePoint1.term"
-                    id="term1"
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
                     
+                    id="term1"
+                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                    >
                     <option 
                     v-for="term in terms" 
                     :key="term.id"
@@ -176,15 +181,15 @@
             </div>
             
             <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
-                <label class="block mb-2" for="pricing-modle">
+                <label class="block mb-2" for="pricing-model">
                     Pricing Model
                 </label>
                 <div class="relative">
                     <select 
-                    v-model="form.pricePoints.pricePoint1.priceModel"
+                    
                     id="priceModel1"
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-
+                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                    >
                     <option 
                     v-for="pricingModel in pricingModels" 
                     :key="pricingModel.id">
@@ -209,6 +214,7 @@
             Add New Price Option
         </a>
     </div>
+    <div v-if="errors.pricePoints" class="text-red-400 p-2">{{ errors.pricePoints[0] }}</div>
     <div class="spacer m-24"></div>
     <div class="flex items-center border-b border-blue-600 py-2 my-6">
         <input 
@@ -216,8 +222,10 @@
         id="sme-input" 
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" 
         placeholder="Subject Matter Expert" 
-        aria-label="Subject Matter Expert">
+        aria-label="Subject Matter Expert"
+        >
     </div>
+    <div v-if="errors.sme" class="text-red-400 p-2">{{ errors.sme[0] }}</div>
     <div class="flex items-center border-b border-blue-600 py-2 my-6">
         <textarea
         v-model="form.bio" 
@@ -228,19 +236,23 @@
         placeholder="Bio" 
         aria-label="Bio"></textarea>
     </div>
+    <div v-if="errors.bio" class="text-red-400 p-2">{{ errors.bio[0] }}</div>
     <div class="flex items-center border-b border-blue-600 py-2 my-6">
         <input
         v-model="form.imgLink" 
         id="sme-image" 
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" 
         placeholder="Image Link" 
-        aria-label="Image Link">
+        aria-label="Image Link"
+        >
     </div>
+    <div v-if="errors.imgLink" class="text-red-400 p-2">{{ errors.imgLink[0] }}</div>
      <div class="sub-btn-container my-10">
         <a 
         v-on:click="submit();"
         id="sub-btn" 
-        class="submit bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" >
+        class="submit bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
+        type="submit">
             Submit
         </a>
     </div>
@@ -258,10 +270,10 @@
             //get courses list
             this.getCourses(this.pageNum);
 
-
            
         },
         props:{
+            errors: {},
             sysid: null,
             apikey: null,
             
@@ -277,33 +289,27 @@
                 pageNum: 1,
                 priceIndex: 1,
                 terms: [
-                    'select',
+                    '',
                     'monthly',
                     'quarterly',
                     'yearly',
                     'one time',
                 ],   
                 pricingModels: [
-                    'select',
+                    '',
                     'b2c',
                     'b2b'
                 ],
 
                 form: {
                     sysid: this.sysid,
-                    productName: null,
-                    overview: null,
+                    productName: '',
+                    overview: '',
                     selectedCourses: [],
-                    pricePoints: {
-                        pricePoint1: {
-                            price: null,
-                            term: null,
-                            priceModel: null
-                        }
-                    },
-                    sme: null,
-                    bio: null,
-                    imgLink: null,
+                    pricePoints: {},
+                    sme: '',
+                    bio: '',
+                    imgLink: '',
                     
                 },
                 
@@ -375,7 +381,7 @@
                 
 
             },
-            checkBtnState: async function (){
+            checkBtnState: function (){
                 if(this.$refs.addBtn){
                     this.$refs.addBtn.forEach(btn =>{
                         if(this.form.selectedCourses.includes(btn.id)){
@@ -431,14 +437,14 @@
             makePricePoint: function(){
                 
                 let pricePointContainer = document.querySelector('#price-point-container');
-                let pricePointCount = document.querySelectorAll('.price-container').length+1;
+                let pricePointCount = document.querySelectorAll('.price-wrap').length+1;
 
                 //new price point wrapper
                 let newPricePointWrapper = document.createElement('div');
                 newPricePointWrapper.setAttribute('id', 'price-point-wrapper' + pricePointCount)
                 newPricePointWrapper.classList.add(
                     'container',
-                    'price-container',
+                    'price-wrap',
                     'flex',
                     'items-center',
                     'my-10'
@@ -531,7 +537,7 @@
                     let pmTermLabel = document.createElement('label');
                     pmTermLabel.classList.add('block','mb-2');
                     pmTermLabel.setAttribute('for', 'pricing-model' + pricePointCount);
-                    pmTermLabel.textContent = "pricing-model";
+                    pmTermLabel.textContent = "Pricing Model";
 
                     //select
                     let pmSelect = document.createElement('Select');
@@ -567,13 +573,13 @@
                 pricePointContainer.appendChild(newPricePointWrapper);
 
                 //adds new object to form.pricePoint
-                let addedPrices = document.querySelectorAll('.price-container');
+                let addedPrices = document.querySelectorAll('.price-wrap');
                 addedPrices.forEach((pricePoint) => {
                     
                     this.form.pricePoints[`pricePoint${addedPrices.length}`] = {
-                    price: null,
-                    term: null,
-                    pricingModel: null
+                    price: '',
+                    term: '',
+                    pricingModel: ''
                 };
                 
                 });
@@ -581,13 +587,27 @@
                 
             },
             submit() {
+                //if first price point has values, add those values to pricePoints object
+                if( document.querySelector(`#price1`).value != '' &&
+                    document.querySelector(`#term1`).value != '' &&
+                    document.querySelector(`#priceModel1`).value != ''
+                    ){
+
+                        let newObj = {
+                                price: document.querySelector(`#price${this.priceIndex}`).value,
+                                term: document.querySelector(`#term${this.priceIndex}`).value,
+                                priceModel: document.querySelector(`#priceModel${this.priceIndex}`).value
+                            };
+        
+                            this.form.pricePoints[`pricePoint${this.priceIndex}`] = newObj;
+                    }
 
                 Object.entries(this.form.pricePoints).forEach(([key, value]) => {
                     //loop through form.pricePoints and assign values dynamically
                     let newObj = {
-                        price: value.price ? value.price: document.querySelector(`#price${this.priceIndex}`).value,
-                        term: value.term ? value.term : document.querySelector(`#term${this.priceIndex}`).value,
-                        priceModel: value.priceModel ? value.priceModel : document.querySelector(`#priceModel${this.priceIndex}`).value
+                        price: value.price ? document.querySelector(`#price${this.priceIndex}`).value : '',
+                        term: value.term ? document.querySelector(`#term${this.priceIndex}`).value : '',
+                        priceModel: value.priceModel ? document.querySelector(`#priceModel${this.priceIndex}`).value : ''
                     };
 
                     this.form.pricePoints[`${key}`] = newObj;
@@ -608,6 +628,10 @@
         },
         updated: function(){
             this.checkBtnState();
+
+            if(this.errors.productName){
+               console.log(this.errors)
+           }
         }
 
 

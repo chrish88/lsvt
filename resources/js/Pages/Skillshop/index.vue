@@ -69,7 +69,7 @@
         methods: {
             submit(event){
 
-                this.$inertia.post('/skillshop/form', this.form)
+                this.$inertia.get('/skillshop/form', this.form)
 
 
             },
