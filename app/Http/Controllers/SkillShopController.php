@@ -12,7 +12,7 @@ class SkillshopController extends Controller
 {
     function index()
     {
-        return Inertia::render('Skillshop/index');
+        return Inertia::render('index');
     }
 
     function show(Request $request)
@@ -25,7 +25,7 @@ class SkillshopController extends Controller
         $sysid  = request('sysid');
         $apikey = request('apikey');
 
-        return Inertia::render('Skillshop/form', compact('sysid', 'apikey'));
+        return Inertia::render('form', compact('sysid', 'apikey'));
 
     
 
