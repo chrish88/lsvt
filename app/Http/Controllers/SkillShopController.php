@@ -46,7 +46,8 @@ class SkillshopController extends Controller
             'bio'               => 'required',
             'imgLink'           => 'required'
         ]);
-    
+        
+        
        //Mail::to('chrishcodes@gmail.com')->send(new SkillshopMailer($request));
 
        
