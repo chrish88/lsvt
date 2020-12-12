@@ -3246,6 +3246,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     //get courses count
@@ -3255,6 +3256,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   props: {
     errors: {},
+    flash: {},
     sysid: null,
     apikey: null
   },
@@ -3507,9 +3509,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           term: value.term ? document.querySelector("#term".concat(_this5.priceIndex)).value : '',
           priceModel: value.priceModel ? document.querySelector("#priceModel".concat(_this5.priceIndex)).value : ''
         };
-        _this5.form.pricePoints["".concat(key)] = newObj; //console.log(this.form.pricePoints[`${key}`])
-        //console.log(`${this.priceIndex}, ${key}: ${value.price}`);
-
+        _this5.form.pricePoints["".concat(key)] = newObj;
         _this5.priceIndex++;
       }); //console.log(this.form.pricePoints)
 
@@ -39968,6 +39968,7 @@ var render = function() {
         on: {
           submit: function($event) {
             $event.preventDefault()
+            return _vm.submit($event)
           }
         }
       },
@@ -40175,7 +40176,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\r\n                        Add\r\n                    "
+                            "\r\n                            Add\r\n                        "
                           )
                         ]
                       )
@@ -40183,17 +40184,17 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticClass: "pl-6" }, [
                       _vm._v(
-                        "\r\n                    " +
+                        "\r\n                        " +
                           _vm._s(course.courseName) +
-                          " \r\n                "
+                          " \r\n                    "
                       )
                     ]),
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\r\n                    " +
+                        "\r\n                        " +
                           _vm._s(course.courseId) +
-                          "\r\n                "
+                          "\r\n                    "
                       )
                     ])
                   ])
@@ -40267,7 +40268,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\r\n          " + _vm._s(page) + "\r\n        "
+                            "\r\n            " +
+                              _vm._s(page) +
+                              "\r\n            "
                           )
                         ]
                       )
@@ -40345,7 +40348,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\r\n                    Term\r\n                "
+                          "\r\n                        Term\r\n                    "
                         )
                       ]
                     ),
@@ -40411,7 +40414,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\r\n                    Pricing Model\r\n                "
+                          "\r\n                        Pricing Model\r\n                    "
                         )
                       ]
                     ),
@@ -40427,9 +40430,9 @@ var render = function() {
                         _vm._l(_vm.pricingModels, function(pricingModel) {
                           return _c("option", { key: pricingModel.id }, [
                             _vm._v(
-                              "\r\n                    " +
+                              "\r\n                        " +
                                 _vm._s(pricingModel.toUpperCase()) +
-                                "\r\n                    "
+                                "\r\n                        "
                             )
                           ])
                         }),
@@ -40476,7 +40479,7 @@ var render = function() {
             "a",
             {
               staticClass:
-                "price-point bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow",
+                "price-point bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow cursor-pointer",
               attrs: { id: "price-btn" },
               on: {
                 click: function($event) {
@@ -40484,7 +40487,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\r\n            Add New Price Option\r\n        ")]
+            [_vm._v("\r\n                Add New Price Option\r\n            ")]
           )
         ]),
         _vm._v(" "),
@@ -40629,7 +40632,7 @@ var render = function() {
             "a",
             {
               staticClass:
-                "submit bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow",
+                "submit bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow cursor-pointer",
               attrs: { id: "sub-btn", type: "submit" },
               on: {
                 click: function($event) {
@@ -40637,7 +40640,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\r\n            Submit\r\n        ")]
+            [_vm._v("\r\n                Submit\r\n            ")]
           )
         ])
       ]
@@ -40650,7 +40653,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h2", { staticClass: "my-8" }, [
-      _vm._v("\r\n    Please fill out the Skill Shop application for system:"),
+      _vm._v(
+        "\r\n        Please fill out the Skill Shop application for system:"
+      ),
       _c("span")
     ])
   },
@@ -40663,11 +40668,15 @@ var staticRenderFns = [
         _c("th"),
         _vm._v(" "),
         _c("th", { staticClass: "pl-6 pb-10" }, [
-          _vm._v("\r\n                    Course Name\r\n                ")
+          _vm._v(
+            "\r\n                        Course Name\r\n                    "
+          )
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "pb-10" }, [
-          _vm._v("\r\n                    Course Id\r\n                ")
+          _vm._v(
+            "\r\n                        Course Id\r\n                    "
+          )
         ])
       ]),
       _vm._v(" "),

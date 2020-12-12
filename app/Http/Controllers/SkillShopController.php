@@ -32,9 +32,10 @@ class SkillshopController extends Controller
     }
 
     function submit(Request $request){
+        //dd($request);
 
         $params = $request->json();
-        dd($params);
+        
         $request->validate([
             'sysid'             => 'required',
             'productName'       => 'required',
