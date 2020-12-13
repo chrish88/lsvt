@@ -1,3 +1,3 @@
-@extends('layouts.header')
+@include('layouts.header')
     @inertia
-@extends('layouts.footer')
+@include('layouts.footer')
