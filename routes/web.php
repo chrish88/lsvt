@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SkillshopController;
+use App\Http\Controllers\SkillShopController;
 use App\Mail\SkillshopMailer;
 use Illuminate\Support\Facades\Route;
 
